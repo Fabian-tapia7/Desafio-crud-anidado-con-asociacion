@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<%= form_with(model: [@company, Employee.new ], local: true) do |form| %>
+  <%= form.hidden_field :company_id, value: @company.id %>
+  <div class="field">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Area Trabajo" %>
+    <%= form.select :area_id, Area.pluck(:name, :id) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">First_name</th>
+      <th scope="col">Last_name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Area</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% @company.employees.each do |employee| %>
+      <tr>
+        <td class="mb-2">
+          <%= employee.first_name %>
+        </td>
+        <td class="mb-2">
+          <%= employee.last_name %>
+        </td>
+        <td class="mb-2">
+          <%= employee.email %>
+        </td>
+        <td class="mb-2">
+          <%= employee.area.name %>
+        </td>
+        <td class="mb-2">
+          <%= link_to "Eliminar", company_employee_path(@company, employee), method: :delete, class:"btn btn-warning btn-sm" %>
+        </td>
+      </tr>
+      <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
