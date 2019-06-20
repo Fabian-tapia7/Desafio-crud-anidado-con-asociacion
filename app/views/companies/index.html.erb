@@ -1,34 +1,55 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="text-center mb-4">Companies</h1>
+<h1 class="text-center mb-4 display-4">Companies</h1>
 
-<table class="table">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">Nombre Empresa</th>
-      <th scope="col">Area</th>
-      <th scope="col" class="mb-2" >Cantidad de trabajdores</th>
-    </tr>
-  </thead>
+<div class="container">
 
-  <tbody>
-
-    <% @companies.each do |company| %>
+  <table class="table">
+    <thead class="thead-light">
       <tr>
-        <td class="mb-2">
-          <%= link_to company.name, company %>
-        </td>
+        <th scope="col">Nombre Empresa</th>
 
-        <td class="mb-2">
-          <%= company.areas.name %>
-        </td>
-
-        <td><%= link_to 'Edit', edit_company_path(company) %></td>
-        <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @companies.each do |company| %>
+        <tr>
+          <td class="mb-4">
+            <%= link_to company.name, company, class:"h3" %>
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Area</th>
+                  <th scope="col" >Cantidad de trabajadores</th>
+                  <th scope="col">Editar</th>
+                  <th scope="col" >Eliminar</th>
+                </tr>
+              </thead>
+
+            <tbody>
+              <% company.employees.group(:area).count.each do |area, nro_trabajadores| %>
+                <tr>
+                  <td class="mb-2">
+                    <%= area.name %>
+                  </td>
+                  <td class="mb-2">
+                    <%= nro_trabajadores %>
+                  </td>
+                  <td><%= link_to 'Edit', edit_company_path(company) %></td>
+                  <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+            </table>
+          </td>
+
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
